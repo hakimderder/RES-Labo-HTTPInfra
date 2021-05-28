@@ -5,22 +5,23 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
-    res.send(generateCountries())
-})
-
-
-app.listen(port, () => {
-    console.log(`Accepting HTTP requests on port ${port}`)
-})
-
-// app.get('/', function (req, res) {
-//     res.send('Wassup')
+// app.get('/', (req, res) => {
+//     res.send(generateCountries())
 // })
 //
-// app.listen(port, function () {
-//     console.log(`Accepting HTTP requests on port 3000`)
+//
+// app.listen(port, () => {
+//     console.log(`Accepting HTTP requests on port ${port}`)
 // })
+
+app.get('/', function (req, res) {
+    res.send(generateCountries());
+});
+
+app.listen(3000, function () {
+    console.log('Accepting HTTP requests on port 3000.');
+});
+
 
 function generateCountries() {
     var numberOfCountries = chance.integer({
