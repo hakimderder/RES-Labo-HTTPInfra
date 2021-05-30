@@ -11,6 +11,9 @@ Voici le contenu du Dockerfile :
 ```dockerfile
 FROM php:7.4-apache
 
+RUN apt-get update && \
+   apt-get install -y vim
+
 COPY content/ /var/www/html/
 ```
 
@@ -102,3 +105,26 @@ Pour accéder a l'application dynamique, entrer `demo.res.ch:8080/api/animals`.
 
 ## Etape 4 - Requêtes AJAX
 
+Dans cette étape, nous allons utiliser la librairie JQuery afin d'envoyer périodiquement des requêtes AJAX vers le server dynamique afin de mettre à jour la page statique. 
+
+### Contenu
+
+Nous avons écrit un script `animals.js`, qui fait la même chose que celui de l'étape 2, et qui affiche les informations du premier élément du tableau. Ces données sont re-générées toutes les 5 secondes. Pour que le site exécute ce script, il a fallut ajouter la ligne `<script src="js/animals.js"></script>` dans le code du site statique. 
+
+### Utilisation
+
+Comme à l'étape précédente, il faut que les containers soient lancés dans le même ordre. Après les avoir tous arrêtés, entrer les commandes suivantes : 
+
+En étant dans le répertoire `apache-php-image` 
+
+`docker build -t res/apache_static .` et `docker run -d res/apache_static`
+
+En étant de le répertoire `express-image`
+
+`docker build -t res/express .` et `docker run -d res/express` 
+
+En étant dans le répertoire `apache-reverse-proxy`
+
+ `docker build -t res/apache_rp .` et `docker run -p 8080:80 -d res/apache_rp`
+
+Ensuite, ouvrir un navigateur et entrer dans l'URL `demo.res.ch:8080/`.
