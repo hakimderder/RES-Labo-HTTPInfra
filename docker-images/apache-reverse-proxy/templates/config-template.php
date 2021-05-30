@@ -20,6 +20,12 @@
             ProxySet stickysession=ROUTEID
         </Proxy>
 
+        <Location "/balancer-manager">
+            SetHandler balancer-manager
+        </Location>
+
+        ProxyPass '/balancer-manager' !
+
 		ProxyPass '/api/animals/' 'balancer://cluster_appDynamic/'
         ProxyPassReverse '/api/animals/' 'balancer://cluster_appDynamic/'
 
