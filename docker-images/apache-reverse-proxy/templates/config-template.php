@@ -18,10 +18,18 @@
             BalancerMember "http://<?php print "$ip_static_1"?>"
         </Proxy>
 
+        <Location "/balancer-manager">
+            SetHandler balancer-manager
+        </Location>
+
+        ProxyPass '/balancer-manager' !
 		ProxyPass '/api/animals/' 'balancer://cluster_appDynamic/'
         ProxyPassReverse '/api/animals/' 'balancer://cluster_appDynamic/'
 
         ProxyPass "/" "balancer://cluster_appStatic/"
         ProxyPassReverse "/" "balancer://cluster_appStatic/"
+
+
+
 
 </VirtualHost>
