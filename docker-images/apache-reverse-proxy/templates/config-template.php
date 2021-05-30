@@ -1,15 +1,27 @@
 <?php
     $ip_static = getenv('STATIC_APP');
+    $ip_static_1 = getenv('STATIC_APP1');
     $ip_dynamic = getenv('DYNAMIC_APP');
+    $ip_dynamic_1 = getenv('DYNAMIC_APP1');
 ?>
+
 
 <VirtualHost *:80>
         ServerName demo.res.ch
-		
-		ProxyPass '/api/animals/' 'http://<?php print "$ip_dynamic"?>/'
-        ProxyPassReverse '/api/animals/' 'http://<?php print "$ip_dynamic"?>/'
+		<Proxy "balancer://cluster_appDynamic">
+            BalancerMember "http://<?php print "$ip_dynamic"?>"
+            BalancerMember "http://<?php print "$ip_dynamic_1"?>"
+        </Proxy>
 
-        ProxyPass "/" "http://<?php print "$ip_static"?>/"
-        ProxyPassReverse "/" "http://<?php print "$ip_static"?>/"
+        <Proxy "balancer://cluster_appStatic">
+            BalancerMember "http://<?php print "$ip_static"?>"
+            BalancerMember "http://<?php print "$ip_static_1"?>"
+        </Proxy>
+
+		ProxyPass '/api/animals/' 'balancer://cluster_appDynamic/'
+        ProxyPassReverse '/api/animals/' 'balancer://cluster_appDynamic/'
+
+        ProxyPass "/" "balancer://cluster_appStatic/"
+        ProxyPassReverse "/" "balancer://cluster_appStatic/"
 
 </VirtualHost>
