@@ -106,7 +106,7 @@ Et le ```config-template.php``` ajoute le balancer manager avec la balise Locati
 </VirtualHost>
 ```
 
-![balancerManager](figures\load-balancer1.PNG)
+![balancerManager](./figures/load-balancer1.PNG)
 
 On voit avec la colonne Elected de chaque cluster que les deux worker sont utilisés. Le path montre quel endpoint est choisi.
 
@@ -154,17 +154,17 @@ En partant de notre implémentation du load balancing en round-robin uniquement,
 
 On test pour valider l'implémentation :
 
-![](figures\load-balancer2.PNG)
+![](./figures/load-balancer2.PNG)
 
 On voit que le cluster dynamique travaille toujours en Round-Robin, les deux worker sont utilisés tour à tour. Le cluster par contre possède maintenant une sticky session et on voit que c'est toujours le même worker qui est selectionné, ce qui est correct. 
 
 On peut également aller regarder à l'aide des developper tools le cookie qui nous a été attribué :
 
-![](figures\Cookie2.PNG)
+![](./figures/Cookie2.PNG)
 
 Si on éteint le serveur statique avec la route 2, on peut voir que le cookie change :
 
-![](figures\Cookie1.PNG)
+![](./figures/Cookie1.PNG)
 
 Pour les bonus de load-balancing, nous nous sommes basés sur les infos de [apache](https://httpd.apache.org/docs/2.4/fr/mod/mod_proxy_balancer.html)
 
